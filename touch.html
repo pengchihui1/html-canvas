@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Canvas Touch Drawing Example</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="1482" height="758"></canvas>
+  <script>
+    // 获取Canvas元素和2D绘图上下文
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+
+    // 在Canvas上绑定touch事件
+    canvas.addEventListener('touchstart', handleTouchStart, false);
+    canvas.addEventListener('touchmove', handleTouchMove, false);
+
+    // 定义一个变量来存储上一个触摸点的位置
+    var lastTouch = null;
+
+    // touchstart事件处理程序，记录第一个触摸点的位置
+    function handleTouchStart(evt) {
+      evt.preventDefault();
+      lastTouch = evt.touches[0];
+    }
+
+    // touchmove事件处理程序，绘制从上一个触摸点到当前触摸点的连线
+    function handleTouchMove(evt) {
+      evt.preventDefault();
+      var currentTouch = evt.touches[0];
+      ctx.beginPath();
+      ctx.moveTo(lastTouch.pageX - canvas.offsetLeft, lastTouch.pageY - canvas.offsetTop);
+      ctx.lineTo(currentTouch.pageX - canvas.offsetLeft, currentTouch.pageY - canvas.offsetTop);
+      ctx.stroke();
+      lastTouch = currentTouch;
+    }
+  </script>
+</body>
+</html>
