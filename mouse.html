@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Canvas Mouse Drawing Example</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="1482" height="758"></canvas>
+  <script>
+    // 获取Canvas元素和2D绘图上下文
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+
+    // 在Canvas上绑定mousedown、mousemove和mouseup事件
+    canvas.addEventListener('mousedown', handleMouseDown, false);
+    canvas.addEventListener('mousemove', handleMouseMove, false);
+    canvas.addEventListener('mouseup', handleMouseUp, false);
+
+    // 定义一个变量来存储鼠标按下状态
+    var isDrawing = false;
+
+    // mousedown事件处理程序，记录鼠标按下状态
+    function handleMouseDown(evt) {
+      isDrawing = true;
+      ctx.beginPath();
+      ctx.moveTo(evt.clientX - canvas.offsetLeft, evt.clientY - canvas.offsetTop);
+    }
+
+    // mousemove事件处理程序，绘制从上一个鼠标位置到当前位置的连线
+    function handleMouseMove(evt) {
+      if (isDrawing) {
+        ctx.lineTo(evt.clientX - canvas.offsetLeft, evt.clientY - canvas.offsetTop);
+        ctx.stroke();
+      }
+    }
+
+    // mouseup事件处理程序，记录鼠标抬起状态
+    function handleMouseUp(evt) {
+      isDrawing = false;
+    }
+  </script>
+</body>
+</html>
