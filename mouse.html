@@ -10,7 +10,12 @@
   </style>
 </head>
 <body>
+  <div style="display: flex; justify-content: center;">
+    <button style="padding: 10px;margin: 20px;" onclick="clearCanvas()">清楚绘画</button>
+  </div>
+  <div style="display: flex; justify-content: center;">
   <canvas id="myCanvas" width="1482" height="758"></canvas>
+  </div>
   <script>
     // 获取Canvas元素和2D绘图上下文
     var canvas = document.getElementById('myCanvas');
@@ -43,6 +48,31 @@
     function handleMouseUp(evt) {
       isDrawing = false;
     }
+
+    function clearCanvas() {
+      if (canvas && ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+      }
+    }
   </script>
+
+<script>
+  // 禁用雙指放大
+  document.documentElement.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, {passive: false});
+
+  // 禁用雙擊放大
+  var lastTouchEnd = 0;
+  document.documentElement.addEventListener('touchend', function (event) {
+    var now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false});
+</script>
 </body>
 </html>
